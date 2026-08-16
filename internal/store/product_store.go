@@ -57,7 +57,7 @@ func (s *MemoryStore) UpdateProduct(p *model.Product) error {
 		return ErrNotFound
 	}
 	for _, exist := range s.products {
-		if exist.ID == p.ID && exist.SKU == p.SKU {
+		if exist.ID != p.ID && exist.SKU == p.SKU {
 			return ErrConflict
 		}
 	}

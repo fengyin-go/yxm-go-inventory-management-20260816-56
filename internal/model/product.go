@@ -41,8 +41,12 @@ func (f ProductFilter) Match(p *Product) bool {
 		return false
 	}
 	if f.Keyword != "" {
-		if !strings.Contains(p.Name, f.Keyword) &&
-			!strings.Contains(p.SKU, f.Keyword) {
+		k := strings.ToLower(strings.TrimSpace(f.Keyword))
+		if k == "" {
+			return true
+		}
+		if !strings.Contains(strings.ToLower(p.Name), k) &&
+			!strings.Contains(strings.ToLower(p.SKU), k) {
 			return false
 		}
 	}
