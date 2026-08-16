@@ -67,24 +67,28 @@ func (s *Service) UpdateProduct(id string, input model.Product) (*model.Product,
 	if err != nil {
 		return nil, err
 	}
-	// 仅应用可编辑字段。
-	exist.Name = input.Name
-	exist.Category = input.Category
-	exist.Unit = input.Unit
-	exist.Price = input.Price
-	exist.Description = input.Description
+	// 在副本上应用可编辑字段并校验，避免校验失败时污染已存记录。
+	merged := *exist
+	merged.Name = input.Name
+	merged.Category = input.Category
+	merged.Unit = input.Unit
+	merged.Price = input.Price
+	merged.Description = input.Description
 	if input.Status != "" {
-		exist.Status = input.Status
+		merged.Status = input.Status
 	}
 	if input.SKU != "" {
-		exist.SKU = input.SKU
+		merged.SKU = input.SKU
 	}
-	exist.UpdatedAt = time.Now()
-	if err := s.store.UpdateProduct(exist); err != nil {
+	if err := merged.Validate(); err != nil {
 		return nil, err
 	}
-	s.log.Infof("更新商品 %s(%s)", exist.Name, exist.SKU)
-	return exist, nil
+	merged.UpdatedAt = time.Now()
+	if err := s.store.UpdateProduct(&merged); err != nil {
+		return nil, err
+	}
+	s.log.Infof("更新商品 %s(%s)", merged.Name, merged.SKU)
+	return &merged, nil
 }
 
 // DeleteProduct 删除商品。
@@ -102,11 +106,16 @@ func (s *Service) SetProductStatus(id, status string) (*model.Product, error) {
 	if err != nil {
 		return nil, err
 	}
-	exist.Status = status
-	exist.UpdatedAt = time.Now()
-	if err := s.store.UpdateProduct(exist); err != nil {
+	// 在副本上校验状态合法性，避免非法值污染已存记录。
+	merged := *exist
+	merged.Status = status
+	if err := merged.Validate(); err != nil {
+		return nil, err
+	}
+	merged.UpdatedAt = time.Now()
+	if err := s.store.UpdateProduct(&merged); err != nil {
 		return nil, err
 	}
 	s.log.Infof("商品 %s 状态变更为 %s", id, status)
-	return exist, nil
+	return &merged, nil
 }

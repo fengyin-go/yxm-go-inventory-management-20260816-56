@@ -41,8 +41,10 @@ func (f ProductFilter) Match(p *Product) bool {
 		return false
 	}
 	if f.Keyword != "" {
-		if !strings.Contains(p.Name, f.Keyword) &&
-			!strings.Contains(p.SKU, f.Keyword) {
+		// 关键词匹配名称或 SKU，统一转为小写以忽略大小写。
+		kw := strings.ToLower(f.Keyword)
+		if !strings.Contains(strings.ToLower(p.Name), kw) &&
+			!strings.Contains(strings.ToLower(p.SKU), kw) {
 			return false
 		}
 	}

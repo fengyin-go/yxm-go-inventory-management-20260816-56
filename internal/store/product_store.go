@@ -49,7 +49,7 @@ func (s *MemoryStore) ListProducts() []*model.Product {
 	return list
 }
 
-// UpdateProduct 覆盖保存商品。
+// UpdateProduct 覆盖保存商品，SKU 与其它商品重复时返回 ErrConflict。
 func (s *MemoryStore) UpdateProduct(p *model.Product) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -57,7 +57,7 @@ func (s *MemoryStore) UpdateProduct(p *model.Product) error {
 		return ErrNotFound
 	}
 	for _, exist := range s.products {
-		if exist.ID == p.ID && exist.SKU == p.SKU {
+		if exist.ID != p.ID && exist.SKU == p.SKU {
 			return ErrConflict
 		}
 	}
