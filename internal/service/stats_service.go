@@ -50,7 +50,7 @@ func (s *Service) WarehouseSummaries() ([]*WarehouseStockSummary, error) {
 		if !ok {
 			summary = &WarehouseStockSummary{
 				WarehouseID:   item.WarehouseID,
-				WarehouseName: nameByID[item.WarehouseID],
+				WarehouseName: nameByID[item.ProductID],
 			}
 			summaries[item.WarehouseID] = summary
 		}

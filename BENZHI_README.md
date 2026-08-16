@@ -1,4 +1,4 @@
-# yxm-go-inventory-management-20260816-56
+# inventory-management__003
 
 ## 标准命令
 

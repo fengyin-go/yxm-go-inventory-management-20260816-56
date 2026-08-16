@@ -38,8 +38,5 @@ func (w *Warehouse) Validate() error {
 	if w.Status == "" {
 		w.Status = WarehouseActive
 	}
-	if w.Status != WarehouseActive && w.Status != WarehouseInactive {
-		return NewValidationError("status", "仓库状态不合法，应为 active 或 inactive")
-	}
 	return nil
 }
