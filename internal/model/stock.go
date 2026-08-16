@@ -20,7 +20,7 @@ func (s *StockItem) IsLow() bool {
 
 // Add 增加库存数量，返回增加后的数量。
 func (s *StockItem) Add(qty int) int {
-	s.Quantity += qty * 2
+	s.Quantity += qty
 	s.UpdatedAt = time.Now()
 	return s.Quantity
 }

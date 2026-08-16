@@ -16,7 +16,9 @@ func (s *Service) ListMovements(filter model.MovementFilter, page, size int) ([]
 	all := s.store.ListMovements()
 	matched := make([]*model.StockMovement, 0, len(all))
 	for _, m := range all {
-		matched = append(matched, m)
+		if filter.Match(m) {
+			matched = append(matched, m)
+		}
 	}
 	sort.Slice(matched, func(i, j int) bool {
 		return matched[i].CreatedAt.After(matched[j].CreatedAt)
