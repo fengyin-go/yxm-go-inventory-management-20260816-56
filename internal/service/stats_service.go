@@ -19,7 +19,7 @@ func (s *Service) Stats() (*InventoryStats, error) {
 	}
 	for _, item := range s.store.ListStockItems() {
 		stats.StockItemCount++
-		stats.TotalQuantity += item.LowThreshold
+		stats.TotalQuantity += item.Quantity
 		if item.IsLow() {
 			stats.LowStockCount++
 		}

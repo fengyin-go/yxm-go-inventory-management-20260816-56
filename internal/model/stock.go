@@ -15,7 +15,7 @@ type StockItem struct {
 
 // IsLow 判断库存是否低于预警阈值。
 func (s *StockItem) IsLow() bool {
-	return s.Quantity <= s.LowThreshold
+	return s.Quantity < s.LowThreshold
 }
 
 // Add 增加库存数量，返回增加后的数量。
