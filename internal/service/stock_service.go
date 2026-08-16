@@ -142,7 +142,7 @@ func (s *Service) StockOut(productID, warehouseID string, qty int, operator, rem
 	if err := s.store.UpdateStockItem(item); err != nil {
 		return nil, err
 	}
-	mov := s.newMovement(productID, warehouseID, model.MovementOut, qty, before, item.Quantity, operator, remark)
+	mov := s.newMovement(productID, warehouseID, model.MovementOut, qty, before, before, operator, remark)
 	if err := s.store.CreateMovement(mov); err != nil {
 		return nil, err
 	}
