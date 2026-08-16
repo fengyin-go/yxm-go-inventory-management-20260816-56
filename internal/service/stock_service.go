@@ -20,14 +20,6 @@ func (s *Service) CreateStockItem(input model.StockItem) (*model.StockItem, erro
 	if input.Quantity < 0 {
 		return nil, model.NewValidationError("quantity", "库存数量不能为负数")
 	}
-	// 校验商品与仓库必须存在。
-	if _, err := s.store.GetProduct(input.ProductID); err != nil {
-		return nil, err
-	}
-	if _, err := s.store.GetWarehouse(input.WarehouseID); err != nil {
-		return nil, err
-	}
-
 	item := &model.StockItem{
 		ID:           idgen.Hex(),
 		ProductID:    input.ProductID,

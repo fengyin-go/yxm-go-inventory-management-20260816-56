@@ -79,9 +79,6 @@ func (s *Service) UpdateProduct(id string, input model.Product) (*model.Product,
 	if input.SKU != "" {
 		exist.SKU = input.SKU
 	}
-	if err := exist.Validate(); err != nil {
-		return nil, err
-	}
 	exist.UpdatedAt = time.Now()
 	if err := s.store.UpdateProduct(exist); err != nil {
 		return nil, err
@@ -101,9 +98,6 @@ func (s *Service) DeleteProduct(id string) error {
 
 // SetProductStatus 上架/下架商品。
 func (s *Service) SetProductStatus(id, status string) (*model.Product, error) {
-	if status != model.ProductActive && status != model.ProductInactive {
-		return nil, model.NewValidationError("status", "商品状态不合法")
-	}
 	exist, err := s.store.GetProduct(id)
 	if err != nil {
 		return nil, err
