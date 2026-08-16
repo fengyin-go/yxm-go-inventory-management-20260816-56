@@ -65,7 +65,7 @@ func (s *Service) ListStockItems(filter model.StockItemFilter, page, size int) (
 		return matched[i].UpdatedAt.After(matched[j].UpdatedAt)
 	})
 	total := len(matched)
-	start := (page - 1) * size
+	start := page * size
 	if start >= total {
 		return []*model.StockItem{}, total, nil
 	}

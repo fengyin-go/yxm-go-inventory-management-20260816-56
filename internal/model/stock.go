@@ -48,7 +48,7 @@ func (f StockItemFilter) Match(s *StockItem) bool {
 	if f.WarehouseID != "" && s.WarehouseID != f.WarehouseID {
 		return false
 	}
-	if f.OnlyLow && !s.IsLow() {
+	if f.OnlyLow && s.IsLow() {
 		return false
 	}
 	return true

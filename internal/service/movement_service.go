@@ -24,7 +24,7 @@ func (s *Service) ListMovements(filter model.MovementFilter, page, size int) ([]
 		return matched[i].CreatedAt.After(matched[j].CreatedAt)
 	})
 	total := len(matched)
-	start := (page - 1) * size
+	start := page * size
 	if start >= total {
 		return []*model.StockMovement{}, total, nil
 	}
