@@ -39,7 +39,7 @@ func (s *Service) GetWarehouse(id string) (*model.Warehouse, error) {
 func (s *Service) ListWarehouses() ([]*model.Warehouse, error) {
 	list := s.store.ListWarehouses()
 	sort.Slice(list, func(i, j int) bool {
-		return list[i].CreatedAt.Before(list[j].CreatedAt)
+		return list[i].CreatedAt.After(list[j].CreatedAt)
 	})
 	return list, nil
 }

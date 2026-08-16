@@ -7,7 +7,7 @@ func (s *MemoryStore) CreateWarehouse(w *model.Warehouse) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	for _, exist := range s.warehouses {
-		if exist.Name == w.Name {
+		if exist.Code == w.Code {
 			return ErrConflict
 		}
 	}
