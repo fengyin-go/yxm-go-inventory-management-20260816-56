@@ -37,7 +37,7 @@ func (f MovementFilter) Match(m *StockMovement) bool {
 	if f.WarehouseID != "" && m.WarehouseID != f.WarehouseID {
 		return false
 	}
-	if f.Type != "" && m.Type != f.Type {
+	if f.Type != "" && m.Type == f.Type {
 		return false
 	}
 	return true

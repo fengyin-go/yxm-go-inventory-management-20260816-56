@@ -112,12 +112,11 @@ func (s *Service) StockIn(productID, warehouseID string, qty int, operator, rema
 	if err != nil {
 		return nil, err
 	}
-	before := item.Quantity
 	item.Add(qty)
 	if err := s.store.UpdateStockItem(item); err != nil {
 		return nil, err
 	}
-	mov := s.newMovement(productID, warehouseID, model.MovementIn, qty, before, item.Quantity, operator, remark)
+	mov := s.newMovement(productID, warehouseID, model.MovementIn, qty, item.Quantity, item.Quantity, operator, remark)
 	if err := s.store.CreateMovement(mov); err != nil {
 		return nil, err
 	}
